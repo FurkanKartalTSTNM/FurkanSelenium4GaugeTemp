@@ -37,7 +37,7 @@ public class BaseTest {
         log.info("========== Gauge BeforeSuite: Initializing Testinium WebDriver ==========");
 
         try {
-            String remoteUrl = getEnvOrDefault("SELENIUM_REMOTE_URL", "hub_URL");
+            String remoteUrl = getEnvOrDefault("SELENIUM_REMOTE_URL", "http://172.25.1.110:4444/wd/hub");
             String testiniumKey = getEnvOrDefault("TESTINIUM_KEY", "varsayilan_deger");
 
             ChromeOptions options = buildChromeOptions(testiniumKey);
@@ -45,6 +45,7 @@ public class BaseTest {
             driver = new TestiniumSeleniumDriver(new URL(remoteUrl), options);
             actions = new Actions(driver);
 
+            // Load element repository once (safe)
             initElementsOnce();
 
             log.info("WebDriver initialized successfully. Remote URL: {}", remoteUrl);
@@ -86,6 +87,7 @@ public class BaseTest {
         return value.trim();
     }
 
+    // ---------- Element Repository (JSON) ----------
 
     private static synchronized void initElementsOnce() {
         if (elementsInitialized) return;
@@ -150,4 +152,12 @@ public class BaseTest {
         return (v instanceof ElementInfo) ? (ElementInfo) v : null;
     }
 
+    public static void saveValue(String key, String value) {
+        elementMap.put(key, value);
+    }
+
+    public static String getValue(String key) {
+        Object v = elementMap.get(key);
+        return v != null ? v.toString() : null;
+    }
 }
