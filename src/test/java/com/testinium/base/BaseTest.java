@@ -37,15 +37,13 @@ public class BaseTest {
         log.info("========== Gauge BeforeSuite: Initializing Testinium WebDriver ==========");
 
         try {
-            String remoteUrl = getEnvOrDefault("SELENIUM_REMOTE_URL", "http://172.25.1.110:4444/wd/hub");
-            String testiniumKey = getEnvOrDefault("TESTINIUM_KEY", "varsayilan_deger");
+            String remoteUrl = "http://hub.testinium.io/wd/hub";
 
-            ChromeOptions options = buildChromeOptions(testiniumKey);
+            ChromeOptions options = buildChromeOptions();
 
             driver = new TestiniumSeleniumDriver(new URL(remoteUrl), options);
             actions = new Actions(driver);
 
-            // Load element repository once (safe)
             initElementsOnce();
 
             log.info("WebDriver initialized successfully. Remote URL: {}", remoteUrl);
@@ -63,7 +61,7 @@ public class BaseTest {
         }
     }
 
-    private ChromeOptions buildChromeOptions(String testiniumKey) {
+    private ChromeOptions buildChromeOptions() {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("disable-translate");
         options.addArguments("--disable-notifications");
@@ -73,8 +71,6 @@ public class BaseTest {
 
         Map<String, Object> prefs = new HashMap<>();
         options.setExperimentalOption("prefs", prefs);
-
-        options.setCapability("testinium:key", testiniumKey);
         return options;
     }
 
