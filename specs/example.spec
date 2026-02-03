@@ -4,7 +4,7 @@ Smoke Test
 ---------------------------------------------------
 Tags: smoke
 
-* "https://testinium.io/" sayfasına gelinir
+* "https://www.amazon.com.tr/" sayfasına gelinir
 * Scroll down the page
 * Scroll up the page
 
